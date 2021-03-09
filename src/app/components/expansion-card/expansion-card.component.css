@@ -1,0 +1,10 @@
+button {
+  float: right;
+  margin-right: 0px;
+}
+mat-icon {
+  color: grey;
+}
+mat-card-header {
+  cursor: pointer;
+}

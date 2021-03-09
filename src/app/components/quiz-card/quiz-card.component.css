@@ -1,0 +1,33 @@
+.example-card {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: 80px;
+  margin-right: 80px;
+}
+.inline {
+  display: inline;
+}
+.toolbar {
+  background-image: linear-gradient(to right, #abbaab, #ffffff);
+  padding: 5px;
+}
+.toolbar > button {
+  background-image: linear-gradient(to right, #485563, #29323c);
+  color: #fff;
+  float: right;
+  margin: 3px;
+}
+mat-icon {
+  font-size: 20px;
+}
+mat-card-actions {
+  background-image: linear-gradient(to right, #abbaab, #ffffff);
+}
+mat-card-header {
+  margin-top: 10px;
+}
+
+.score {
+  float: right;
+  margin-right: 100px;
+}

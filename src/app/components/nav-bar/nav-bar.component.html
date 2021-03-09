@@ -1,0 +1,31 @@
+<p>
+  <mat-toolbar>
+    <div routerLink="/home">
+      <mat-icon>home</mat-icon>
+      <span>AU</span>
+    </div>
+    <div class="navbar-align-last">
+      <button
+        mat-icon-button
+        class="example-icon favorite-icon"
+        aria-label="Example icon-button with heart icon"
+        routerLink="/mybooking"
+      >
+        <mat-icon>stars</mat-icon>
+        <mat-label>My booking</mat-label>
+      </button>
+      <button
+        [matMenuTriggerFor]="menu"
+        mat-icon-button
+        class="example-icon"
+        aria-label="Example icon-button with share icon"
+      >
+        <mat-icon>power_settings_new</mat-icon>
+        <mat-label>Logout</mat-label>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="logout()">Logout</button>
+      </mat-menu>
+    </div>
+  </mat-toolbar>
+</p>

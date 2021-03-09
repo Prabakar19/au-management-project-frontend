@@ -1,0 +1,21 @@
+div {
+  cursor: pointer;
+}
+.mat-toolbar {
+  /* background-color: grey; */
+}
+
+.navbar-align-last {
+  position: absolute;
+  right: 0px;
+  top: 2px;
+  width: 200px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  padding: 10px;
+}
+
+.example-icon {
+  margin-left: 12px;
+  margin-right: 12px;
+  width: auto;
+}

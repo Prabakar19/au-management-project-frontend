@@ -1,0 +1,18 @@
+<mat-card>
+  <mat-card-header (click)="clickHandler()">
+    <div mat-card-avatar></div>
+    <mat-card-title>{{ data.assessmentTitle }}</mat-card-title>
+    <mat-card-subtitle>Total Marks: {{ data.score }}</mat-card-subtitle>
+    <mat-card-actions>
+      <button mat-button><mat-icon>east</mat-icon></button>
+    </mat-card-actions>
+  </mat-card-header>
+
+  <mat-expansion-panel
+    (opened)="panelOpenState = true"
+    (closed)="panelOpenState = false"
+  >
+    <mat-expansion-panel-header> </mat-expansion-panel-header>
+    <mat-card> this is card for graph or diagram </mat-card>
+  </mat-expansion-panel>
+</mat-card>
