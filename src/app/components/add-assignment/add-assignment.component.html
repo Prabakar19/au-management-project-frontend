@@ -1,0 +1,30 @@
+<h2 mat-dialog-title>Add Assignment</h2>
+
+<mat-dialog-content class="mat-typography">
+  <mat-form-field appearance="outline">
+    <mat-label>Title</mat-label>
+    <input matInput placeholder="Title" [(ngModel)]="data.title" required />
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Description</mat-label>
+    <input
+      matInput
+      placeholder="Description"
+      [(ngModel)]="data.description"
+      required
+    />
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Total Score</mat-label>
+    <input
+      matInput
+      placeholder="Total Score"
+      [(ngModel)]="data.totalScore"
+      required
+    />
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Add</button>
+</mat-dialog-actions>

@@ -1,17 +1,21 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { AddAssessmentComponent } from 'src/app/Features/add-assessment/add-assessment.component';
 import { Assessment } from 'src/app/datastructure/assessment';
 import { Manager } from 'src/app/datastructure/manager';
 import { AssessmentService } from 'src/app/Services/assessmentService/assessment.service';
 
 @Component({
-  selector: 'app-home-page',
-  templateUrl: './home-page.component.html',
-  styleUrls: ['./home-page.component.css'],
+  selector: 'app-my-assessments',
+  templateUrl: './my-assessments.component.html',
+  styleUrls: ['./my-assessments.component.css'],
 })
-export class HomePageComponent implements OnInit {
+export class MyAssessmentsComponent implements OnInit {
+  manager: Manager;
   assessmentList: Assessment[];
   filteredList: Assessment[];
+  assessmentNameList: String[];
   totalRecords: number;
   page: number;
   QUIZ: string = 'QUIZ';
@@ -21,37 +25,40 @@ export class HomePageComponent implements OnInit {
   //initial key for sort list
   key: string = 'lastUpdated';
   reverse: boolean = false;
-
-  manager: Manager;
-
   isAssessmentAvailable: boolean = true;
-
-  assessmentNameList: String[];
 
   constructor(
     private assessmentService: AssessmentService,
-    private router: Router
+    private router: Router,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
-    this.getAllAssessments();
+    this.manager = JSON.parse(localStorage.getItem('usertoken'));
+    this.getMyAssessments();
   }
 
-  getAllAssessments() {
-    this.assessmentService.getAllAssessmentsRequest().subscribe(
-      (res) => {
-        this.assessmentList = res;
-        this.assessmentNameList = this.assessmentList.map(
-          (assessment) => assessment.assessmentTitle
-        );
-        this.totalRecords = this.assessmentList.length;
-        this.filteredList = this.assessmentList;
-        console.log(this.assessmentList);
-      },
-      (err) => {
-        console.log(err);
-      }
-    );
+  getMyAssessments() {
+    this.assessmentService
+      .getAllAssessByManagerIdRequest(this.manager.managerId)
+      .subscribe(
+        (res) => {
+          this.assessmentList = res;
+          this.assessmentNameList = this.assessmentList.map(
+            (assessment) => assessment.assessmentTitle
+          );
+
+          this.totalRecords = this.assessmentList.length;
+          this.filteredList = this.assessmentList;
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+  }
+
+  createClickHandler() {
+    this.router.navigateByUrl('/addassessment');
   }
 
   cardClickHandler(title: string) {
@@ -59,9 +66,7 @@ export class HomePageComponent implements OnInit {
     this.router.navigateByUrl('/assessment');
   }
 
-  //handler for search component
   selectedDataHandler(assess: string) {
-    console.log(assess);
     sessionStorage.setItem('assessment', JSON.stringify(assess));
     this.router.navigateByUrl('/assessment');
   }

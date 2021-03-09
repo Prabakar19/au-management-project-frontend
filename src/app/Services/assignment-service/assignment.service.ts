@@ -8,7 +8,15 @@ import { Assignment } from 'src/app/datastructure/assignment';
 })
 export class AssignmentService {
   assignmentIdURL = '/api/assignment/id/';
+  addAssignmentURL = '/api/assignment/';
   constructor(private http: HttpClient) {}
+
+  addAssignmentRequest(
+    quiz: Partial<Assignment>,
+    id: number
+  ): Observable<Assignment> {
+    return this.http.post<Assignment>(this.addAssignmentURL + id, quiz);
+  }
 
   updateAssignmentzRequest(
     assignment: Assignment,

@@ -8,7 +8,12 @@ import { Quiz } from 'src/app/datastructure/quiz';
 })
 export class QuizService {
   quizIdURL = '/api/quiz/id/';
+  addQuizURL = '/api/quiz/';
   constructor(private http: HttpClient) {}
+
+  addQuizRequest(quiz: Partial<Quiz>, id: number): Observable<Quiz> {
+    return this.http.post<Quiz>(this.addQuizURL + id, quiz);
+  }
 
   updateQuizRequest(quiz: Quiz, id: number): Observable<Quiz> {
     return this.http.put<Quiz>(this.quizIdURL + id, quiz);

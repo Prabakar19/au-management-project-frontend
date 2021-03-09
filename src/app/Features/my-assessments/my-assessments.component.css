@@ -1,0 +1,60 @@
+.search {
+  margin-top: 30px;
+  margin-left: 200px;
+  width: 20%;
+}
+table {
+  margin-top: 30px;
+  margin-left: 10%;
+}
+td {
+  width: 900px;
+  padding: 10px;
+}
+app-expansion-card {
+  margin-top: 20px;
+}
+.filter {
+  margin-left: 5%;
+}
+
+.pagination {
+  margin-left: 30%;
+  width: 40%;
+  height: 40px;
+}
+
+.inline {
+  display: inline-block;
+}
+mat-label {
+  font-size: 28px;
+}
+
+.filter-button {
+  margin-left: 10px;
+  background-image: linear-gradient(to right, #fc4a1a, #f7b733);
+}
+
+.add {
+  width: 150px;
+  height: 80px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  margin-left: 40%;
+  border-radius: 20px;
+  transition: transform 0.3s;
+}
+
+.add:hover {
+  cursor: pointer;
+  -ms-transform: scale(1.1); /* IE 9 */
+  -webkit-transform: scale(1.1); /* Safari 3-8 */
+  transform: scale(1.2);
+  border-radius: 20px;
+  background-color: rgb(244, 248, 248);
+}
+
+.add-icon {
+  width: 150px;
+}

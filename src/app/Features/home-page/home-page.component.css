@@ -5,10 +5,10 @@
 }
 table {
   margin-top: 30px;
-  margin-left: 20%;
+  margin-left: 10%;
 }
 td {
-  width: 700px;
+  width: 900px;
   padding: 10px;
 }
 app-expansion-card {
@@ -31,4 +31,7 @@ mat-label {
 button {
   margin-left: 10px;
   background-image: linear-gradient(to right, #fc4a1a, #f7b733);
+}
+.filter {
+  margin-left: 5%;
 }

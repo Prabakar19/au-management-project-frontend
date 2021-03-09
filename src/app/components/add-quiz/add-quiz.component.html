@@ -1,0 +1,61 @@
+<h2 mat-dialog-title>Add Quiz</h2>
+
+<mat-dialog-content class="mat-typography">
+  <mat-form-field appearance="outline">
+    <mat-label>Question</mat-label>
+    <input
+      matInput
+      placeholder="Question"
+      [(ngModel)]="data.question"
+      required
+    />
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Option 1</mat-label>
+    <input
+      matInput
+      placeholder="Option 1"
+      [(ngModel)]="data.option1"
+      required
+    />
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Option 2</mat-label>
+    <input
+      matInput
+      placeholder="Option 2"
+      [(ngModel)]="data.option2"
+      required
+    />
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Option 3</mat-label>
+    <input
+      matInput
+      placeholder="Option 3"
+      [(ngModel)]="data.option3"
+      required
+    />
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Option 4</mat-label>
+    <input
+      matInput
+      placeholder="Option 4"
+      [(ngModel)]="data.option4"
+      required
+    />
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Answer</mat-label>
+    <input matInput placeholder="Answer" [(ngModel)]="data.answer" required />
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Score</mat-label>
+    <input matInput placeholder="Score" [(ngModel)]="data.score" required />
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Add</button>
+</mat-dialog-actions>

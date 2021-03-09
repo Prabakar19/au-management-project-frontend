@@ -21,6 +21,12 @@ import { QuizCardComponent } from './components/quiz-card/quiz-card.component';
 import { AssignmentCardComponent } from './components/assignment-card/assignment-card.component';
 import { ProjectCardComponent } from './components/project-card/project-card.component';
 import { DialogComponent } from './components/dialog/dialog.component';
+import { MyAssessmentsComponent } from './Features/my-assessments/my-assessments.component';
+import { AddAssessmentComponent } from './Features/add-assessment/add-assessment.component';
+import { SelectComponent } from './components/select/select.component';
+import { AddQuizComponent } from './components/add-quiz/add-quiz.component';
+import { AddAssignmentComponent } from './components/add-assignment/add-assignment.component';
+import { AddProjectComponent } from './components/add-project/add-project.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +42,12 @@ import { DialogComponent } from './components/dialog/dialog.component';
     AssignmentCardComponent,
     ProjectCardComponent,
     DialogComponent,
+    MyAssessmentsComponent,
+    AddAssessmentComponent,
+    SelectComponent,
+    AddQuizComponent,
+    AddAssignmentComponent,
+    AddProjectComponent,
   ],
   imports: [
     BrowserModule,

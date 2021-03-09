@@ -1,0 +1,88 @@
+<app-nav-bar> </app-nav-bar>
+
+<mat-horizontal-stepper linear #stepper>
+  <mat-step [stepControl]="assessmentForm" [editable]="isEditable">
+    <form [formGroup]="assessmentForm">
+      <ng-template matStepLabel>Assessment</ng-template>
+      <mat-form-field appearance="outline">
+        <mat-label>Title</mat-label>
+        <input
+          matInput
+          formControlName="title"
+          placeholder="Ex. Java Assessment 1"
+          required
+        />
+      </mat-form-field>
+      <div>
+        <mat-form-field appearance="outline">
+          <mat-label>Description</mat-label>
+          <input matInput formControlName="description" required />
+        </mat-form-field>
+      </div>
+      <div>
+        <app-select
+          [data]="courseNameList"
+          [title]="'Course'"
+          (selectedItem)="selectCourseHandler($event)"
+        ></app-select>
+      </div>
+      <div>
+        <app-select
+          [data]="typeList"
+          [title]="'Type'"
+          (selectedItem)="selectTypeHandler($event)"
+        ></app-select>
+      </div>
+      <div>
+        <button mat-button matStepperNext (click)="saveAssessment()">
+          Next
+        </button>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step [editable]="isEditable">
+    <ng-template matStepLabel>{{ assessment.type }}</ng-template>
+
+    <button mat-raised-button (click)="dialogHandler()">Add</button>
+    <button mat-button matStepperNext>Next</button>
+    <div *ngIf="assessment.type == 'QUIZ'">
+      <div *ngFor="let quiz of quizSet">
+        <app-quiz-card
+          [quiz]="quiz"
+          (updatedQuiz)="updatedQuizHandler($event)"
+          (removeItem)="removeQuizHandler($event)"
+        ></app-quiz-card>
+      </div>
+    </div>
+
+    <div *ngIf="assessment.type == 'ASSIGNMENT'">
+      <div *ngFor="let assignment of assignmentSet">
+        <app-assignment-card
+          [assignment]="assignment"
+          (updatedAssignment)="updatedAssignmentHandler($event)"
+          (removeItem)="deleteAssignmentHandler($event)"
+        ></app-assignment-card>
+      </div>
+    </div>
+
+    <div *ngIf="assessment.type == 'PROJECT'">
+      <div *ngFor="let project of projectSet">
+        <app-project-card
+          [project]="project"
+          (updatedProject)="updatedProjectHandler($event)"
+          (removeItem)="deleteProjectHandler($event)"
+        ></app-project-card>
+      </div>
+    </div>
+  </mat-step>
+
+  <mat-step>
+    <ng-template matStepLabel>Done</ng-template>
+    <p>Assessment Added!!</p>
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button (click)="stepper.reset()">Reset</button>
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>
