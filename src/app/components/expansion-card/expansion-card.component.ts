@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Assessment } from 'src/app/datastructure/assessment';
+import { ChartType } from 'chart.js';
+import { MultiDataSet, Label } from 'ng2-charts';
 
 @Component({
   selector: 'app-expansion-card',
@@ -15,12 +17,26 @@ export class ExpansionCardComponent implements OnInit {
   @Input('name')
   name;
 
+  @Input('cityData')
+  cityData: number[];
+
   @Output()
   selectedAssessment: EventEmitter<string> = new EventEmitter();
 
+  public doughnutChartLabels: Label[] = [
+    'Hyderabad',
+    'Chennai',
+    'Bangalore',
+    'Mumbai',
+  ];
+  public doughnutChartData: MultiDataSet = [];
+  public doughnutChartType: ChartType = 'doughnut';
+
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.doughnutChartData.push(this.cityData);
+  }
 
   clickHandler() {
     this.selectedAssessment.emit(this.data.assessmentTitle);

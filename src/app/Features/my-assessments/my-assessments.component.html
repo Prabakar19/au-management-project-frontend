@@ -1,94 +1,129 @@
 <app-nav-bar> </app-nav-bar>
-<div class="search">
-  <app-search-bar
-    *ngIf="assessmentNameList"
-    [listData]="assessmentNameList"
-    (selectedData)="selectedDataHandler($event)"
-    class="inline"
-  ></app-search-bar>
-</div>
-
-<mat-card class="example-card add" (click)="createClickHandler()">
-  <mat-card-header>
-    <div mat-card-avatar class="example-header-image"></div>
-    <mat-card-title>Add New</mat-card-title>
-  </mat-card-header>
-  <mat-card-actions>
-    <button mat-button class="add-icon">
-      <mat-icon> add</mat-icon>
-    </button>
-  </mat-card-actions>
-</mat-card>
-
-<div class="assessment">
-  <div class="filter">
-    <div>
-      <h3>Sort By:</h3>
-      <button
-        mat-raised-button
-        (click)="sortBy('lastUpdated')"
-        class="filter-button"
-      >
-        Date
-        <mat-icon>{{ reverse ? "arrow_drop_up" : "arrow_drop_down" }}</mat-icon>
-      </button>
-    </div>
-
-    <div>
-      <h3>Filter By:</h3>
-      <button
-        mat-raised-button
-        class="filter-button"
-        (click)="filterType(QUIZ)"
-      >
-        Quiz
-      </button>
-      <button
-        mat-raised-button
-        class="filter-button"
-        (click)="filterType(ASSIGNMENT)"
-      >
-        Assignment
-      </button>
-      <button
-        mat-raised-button
-        class="filter-button"
-        (click)="filterType(PROJECT)"
-      >
-        Project
-      </button>
-    </div>
+<app-loader *ngIf="!pageLoaded; else elseBlock"></app-loader>
+<ng-template #elseBlock>
+  <div class="search">
+    <app-search-bar
+      *ngIf="assessmentNameList"
+      [listData]="assessmentNameList"
+      (selectedData)="selectedDataHandler($event)"
+      class="inline"
+    ></app-search-bar>
   </div>
 
-  <table>
-    <tr
-      *ngFor="
-        let assessment of filteredList
-          | paginate
-            : {
-                id: 'assessment_pagination',
-                itemsPerPage: 5,
-                currentPage: page,
-                totalItems: totalRecords
-              }
-          | orderBy: key:reverse
-      "
-    >
-      <td>
-        <app-expansion-card
-          [data]="assessment"
-          (selectedAssessment)="cardClickHandler($event)"
-        ></app-expansion-card>
+  <mat-card class="example-card add" (click)="createClickHandler()">
+    <mat-card-header>
+      <div mat-card-avatar class="example-header-image"></div>
+      <mat-card-title>Add New</mat-card-title>
+    </mat-card-header>
+    <mat-card-actions>
+      <button mat-button class="add-icon">
+        <mat-icon> add</mat-icon>
+      </button>
+    </mat-card-actions>
+  </mat-card>
+
+  <div class="assessment">
+    <div class="filter">
+      <div>
+        <h3>Sort By:</h3>
+        <button
+          mat-raised-button
+          (click)="sortBy('lastUpdated')"
+          class="filter-button"
+        >
+          Date
+          <mat-icon>{{
+            reverse ? "arrow_drop_up" : "arrow_drop_down"
+          }}</mat-icon>
+        </button>
+      </div>
+
+      <div>
+        <h3>Filter By:</h3>
+        <button
+          mat-raised-button
+          class="filter-button"
+          (click)="filterType(QUIZ)"
+        >
+          Quiz
+        </button>
+        <button
+          mat-raised-button
+          class="filter-button"
+          (click)="filterType(ASSIGNMENT)"
+        >
+          Assignment
+        </button>
+        <button
+          mat-raised-button
+          class="filter-button"
+          (click)="filterType(PROJECT)"
+        >
+          Project
+        </button>
+      </div>
+    </div>
+
+    <table>
+      <tr
+        *ngFor="
+          let assessment of filteredList
+            | paginate
+              : {
+                  id: 'assessment_pagination',
+                  itemsPerPage: 5,
+                  currentPage: page,
+                  totalItems: totalRecords
+                }
+            | orderBy: key:reverse
+        "
+      >
+        <td style="width: 80%">
+          <app-expansion-card
+            [data]="assessment"
+            (selectedAssessment)="cardClickHandler($event)"
+          ></app-expansion-card>
+        </td>
+        <td>
+          <tr>
+            <td>
+              <div class="inline btn-group">
+                <button
+                  (click)="addMaterial(assessment.assessmentId)"
+                  mat-raised-button
+                  class="mat-btn"
+                  [disabled]="assessment.trainingMaterials.length != 0"
+                >
+                  Add Material
+                </button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="inline btn-group">
+                <button
+                  (click)="deleteMaterial(assessment.assessmentId)"
+                  mat-raised-button
+                  class="mat-btn"
+                  [disabled]="assessment.trainingMaterials.length == 0"
+                >
+                  Remove Material
+                </button>
+              </div>
+            </td>
+          </tr>
+        </td>
         <mat-divider></mat-divider>
-      </td>
-    </tr>
-  </table>
-  <div class="mat-elevation-z8 pagination">
-    <pagination-controls
-      id="assessment_pagination"
-      maxSize="5"
-      directionLinks="true"
-      (pageChange)="page = $event"
-    ></pagination-controls>
+      </tr>
+    </table>
+    <div class="mat-elevation-z8 pagination">
+      <pagination-controls
+        id="assessment_pagination"
+        maxSize="5"
+        directionLinks="true"
+        (pageChange)="page = $event"
+      ></pagination-controls>
+    </div>
   </div>
-</div>
+</ng-template>

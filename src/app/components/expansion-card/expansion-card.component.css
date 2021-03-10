@@ -8,3 +8,21 @@ mat-icon {
 mat-card-header {
   cursor: pointer;
 }
+
+mat-card {
+  background-image: linear-gradient(
+    to right,
+    #ada996,
+    #f2f2f2,
+    #dbdbdb,
+    #eaeaea
+  );
+}
+canvas {
+  display: block;
+  width: 200px;
+  height: 200px;
+}
+p {
+  font-family: Lato;
+}

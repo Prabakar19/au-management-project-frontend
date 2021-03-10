@@ -9,7 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppMaterialModule } from './app-material/app-material.module';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AuthenticationGuard } from './Guards/authentication.guard';
+import { AuthenticationGuard } from './Guards/manager-guard/authentication.guard';
 import { ErrorCardComponent } from './components/error-card/error-card.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
@@ -27,6 +27,12 @@ import { SelectComponent } from './components/select/select.component';
 import { AddQuizComponent } from './components/add-quiz/add-quiz.component';
 import { AddAssignmentComponent } from './components/add-assignment/add-assignment.component';
 import { AddProjectComponent } from './components/add-project/add-project.component';
+import { LoaderComponent } from './components/loader/loader.component';
+import { AddMaterialCardComponent } from './components/add-material-card/add-material-card.component';
+import { CandidateLoginComponent } from './Features/candidate-login/candidate-login.component';
+import { CandidateRegisterComponent } from './Features/candidate-register/candidate-register.component';
+import { CandidateHomeComponent } from './Features/candidate-home/candidate-home.component';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -48,6 +54,11 @@ import { AddProjectComponent } from './components/add-project/add-project.compon
     AddQuizComponent,
     AddAssignmentComponent,
     AddProjectComponent,
+    LoaderComponent,
+    AddMaterialCardComponent,
+    CandidateLoginComponent,
+    CandidateRegisterComponent,
+    CandidateHomeComponent,
   ],
   imports: [
     BrowserModule,
@@ -59,6 +70,7 @@ import { AddProjectComponent } from './components/add-project/add-project.compon
     AppMaterialModule,
     NgxPaginationModule,
     Ng2OrderModule,
+    ChartsModule,
   ],
   providers: [AuthenticationGuard],
   bootstrap: [AppComponent],

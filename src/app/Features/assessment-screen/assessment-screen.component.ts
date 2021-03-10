@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { AddQuizComponent } from 'src/app/components/add-quiz/add-quiz.component';
 import { DialogComponent } from 'src/app/components/dialog/dialog.component';
 import { Assessment } from 'src/app/datastructure/assessment';
 import { Assignment } from 'src/app/datastructure/assignment';
@@ -18,6 +20,7 @@ import { QuizService } from 'src/app/Services/quiz-service/quiz.service';
   styleUrls: ['./assessment-screen.component.css'],
 })
 export class AssessmentScreenComponent implements OnInit {
+  pageLoaded: boolean = false;
   toggle: boolean = true;
 
   assessmentName: string;
@@ -25,6 +28,7 @@ export class AssessmentScreenComponent implements OnInit {
   quizSet: Quiz[];
   quizLength: number;
   quiz: Quiz;
+  quiz1: Partial<Quiz> = {};
   assignmentSet: Assignment[];
   assignmentLength: number;
   assignment: Assignment;
@@ -45,7 +49,8 @@ export class AssessmentScreenComponent implements OnInit {
     private assignmentService: AssignmentService,
     private projectService: ProjectService,
     private dialog: MatDialog,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private _snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -67,6 +72,7 @@ export class AssessmentScreenComponent implements OnInit {
           this.quizLength = this.quizSet.length;
           this.assignmentLength = this.assignmentSet.length;
           this.projectLength = this.projectSet.length;
+          this.pageLoaded = true;
         },
         (err) => {
           console.log(err);
@@ -232,6 +238,45 @@ export class AssessmentScreenComponent implements OnInit {
     } else {
       this.openDialog();
     }
+  }
+
+  quizHandler() {
+    const dialogRef = this.dialog.open(AddQuizComponent, {
+      width: '600px',
+      data: this.quiz1,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed');
+      if (
+        result != undefined &&
+        result.question &&
+        result.option1 &&
+        result.option2 &&
+        result.option3 &&
+        result.option4 &&
+        result.answer &&
+        result.score
+      ) {
+        this.quiz = result;
+
+        this.quizService
+          .addQuizRequest(this.quiz, this.assessment.assessmentId)
+          .subscribe(
+            (res) => {
+              this.quiz = res;
+              this.quizSet.push(this.quiz);
+            },
+            (err) => {
+              console.log(err);
+            }
+          );
+      } else {
+        this._snackBar.open('not added', 'cancel', {
+          duration: 2000,
+        });
+      }
+    });
   }
 
   openDialog() {

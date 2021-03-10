@@ -13,6 +13,15 @@
     (closed)="panelOpenState = false"
   >
     <mat-expansion-panel-header> </mat-expansion-panel-header>
-    <mat-card> this is card for graph or diagram </mat-card>
+    <div class="chart">
+      <mat-card-actions> Assessment Attended Location </mat-card-actions>
+      <canvas
+        baseChart
+        [data]="doughnutChartData"
+        [labels]="doughnutChartLabels"
+        [chartType]="doughnutChartType"
+      >
+      </canvas>
+    </div>
   </mat-expansion-panel>
 </mat-card>

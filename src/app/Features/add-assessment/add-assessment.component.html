@@ -1,9 +1,10 @@
 <app-nav-bar> </app-nav-bar>
 
-<mat-horizontal-stepper linear #stepper>
+<mat-horizontal-stepper [linear]="true" #stepper>
   <mat-step [stepControl]="assessmentForm" [editable]="isEditable">
-    <form [formGroup]="assessmentForm">
+    <form [formGroup]="assessmentForm" class="step-1">
       <ng-template matStepLabel>Assessment</ng-template>
+
       <mat-form-field appearance="outline">
         <mat-label>Title</mat-label>
         <input
@@ -79,7 +80,16 @@
 
   <mat-step>
     <ng-template matStepLabel>Done</ng-template>
-    <p>Assessment Added!!</p>
+    <p>
+      Assessment
+      {{
+        quizSet.length != 0 ||
+        assignmentSet.length != 0 ||
+        projectSet.length != 0
+          ? "Added!!"
+          : "Not Added"
+      }}!!
+    </p>
     <div>
       <button mat-button matStepperPrevious>Back</button>
       <button mat-button (click)="stepper.reset()">Reset</button>

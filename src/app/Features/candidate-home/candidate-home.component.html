@@ -1,0 +1,71 @@
+<p>
+  <mat-toolbar>
+    <div routerLink="/candidatehome">
+      <span>AU Management</span>
+    </div>
+    <div class="navbar-align-last">
+      <button [matMenuTriggerFor]="menu" mat-icon-button class="example-icon">
+        <mat-icon>power_settings_new</mat-icon>
+        <mat-label>Logout</mat-label>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="logout()">Logout</button>
+      </mat-menu>
+    </div>
+  </mat-toolbar>
+</p>
+
+<div class="body">
+  <app-select
+    [data]="asessmentNameList"
+    [title]="'Choose Assessment'"
+    (selectedItem)="selectAssessmentHandler($event)"
+  ></app-select>
+
+  <div *ngIf="assessment">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>{{ assessment.assessmentTitle }}</mat-card-title>
+        <mat-card-subtitle>{{ assessment.description }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-actions>
+        <button mat-button>
+          Type:
+          <div>{{ assessment.type }}</div>
+        </button>
+        <button mat-button>
+          Total Score:
+          <div>{{ assessment.score }}</div>
+        </button>
+        <button mat-button>
+          Enter YourScore:
+          <div>
+            <mat-form-field appearance="outline">
+              <input
+                matInput
+                placeholder="Score"
+                [(ngModel)]="myScore"
+                required
+              />
+            </mat-form-field>
+          </div>
+        </button>
+        <button mat-button>
+          Feedback:
+          <div class="score">
+            <mat-form-field appearance="outline" class="feedback">
+              <input
+                matInput
+                placeholder="Feedback"
+                [(ngModel)]="myFeedback"
+                required
+              />
+            </mat-form-field>
+          </div>
+        </button>
+      </mat-card-actions>
+
+      <button mat-button class="submit" (click)="storeMark()">Submit</button>
+    </mat-card>
+  </div>
+</div>

@@ -10,6 +10,7 @@ import { AssessmentService } from 'src/app/Services/assessmentService/assessment
   styleUrls: ['./home-page.component.css'],
 })
 export class HomePageComponent implements OnInit {
+  pageLoaded: boolean = false;
   assessmentList: Assessment[];
   filteredList: Assessment[];
   totalRecords: number;
@@ -18,9 +19,11 @@ export class HomePageComponent implements OnInit {
   ASSIGNMENT: string = 'ASSIGNMENT';
   PROJECT: string = 'PROJECT';
 
+  locationData: number[];
+
   //initial key for sort list
   key: string = 'lastUpdated';
-  reverse: boolean = false;
+  reverse: boolean = true;
 
   manager: Manager;
 
@@ -34,6 +37,7 @@ export class HomePageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.locationData = [4, 3, 2, 2];
     this.getAllAssessments();
   }
 
@@ -46,7 +50,7 @@ export class HomePageComponent implements OnInit {
         );
         this.totalRecords = this.assessmentList.length;
         this.filteredList = this.assessmentList;
-        console.log(this.assessmentList);
+        this.pageLoaded = true;
       },
       (err) => {
         console.log(err);

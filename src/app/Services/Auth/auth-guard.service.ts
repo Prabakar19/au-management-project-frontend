@@ -11,4 +11,10 @@ export class AuthGuardService {
 
     localStorage.removeItem('usertoken');
   }
+
+  candidatelogout(): void {
+    localStorage.setItem('isCandidateLoggedIn', 'false');
+
+    localStorage.removeItem('candidatetoken');
+  }
 }

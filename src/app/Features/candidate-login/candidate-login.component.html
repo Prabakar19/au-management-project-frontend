@@ -1,0 +1,31 @@
+<mat-card class="form-class">
+  <form [formGroup]="loginForm" (ngSubmit)="login()">
+    <mat-card-title> Candidate Login</mat-card-title>
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput placeholder="Email" formControlName="emailId" />
+        <mat-icon matSuffix>email</mat-icon>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input
+          matInput
+          placeholder="Password"
+          formControlName="password"
+          [type]="hide ? 'text' : 'password'"
+        />
+        <mat-icon matSuffix (click)="hide = !hide" style="cursor: pointer">{{
+          hide ? "visibility" : "visibility_off"
+        }}</mat-icon>
+      </mat-form-field>
+    </div>
+
+    <button type="submit" mat-raised-button color="primary">Login</button>
+    <mat-hint style="color: red">{{ errorMessage }}</mat-hint>
+  </form>
+  <br />
+  <p routerLink="/candidateregister">Not a user ? Register Here</p>
+</mat-card>

@@ -85,7 +85,11 @@ export class AddAssessmentComponent implements OnInit {
   }
 
   saveAssessment() {
-    if (this.assessmentForm.valid) {
+    if (
+      this.assessmentForm.valid &&
+      this.assessment.type &&
+      this.assessment.courseId
+    ) {
       this.assessment.assessmentTitle = this.assessmentForm.controls[
         'title'
       ].value;
