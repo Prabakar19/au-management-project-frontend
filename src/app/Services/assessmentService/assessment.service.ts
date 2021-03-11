@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Assessment } from 'src/app/datastructure/assessment';
 import { Course } from 'src/app/datastructure/course';
+import { LocationCount } from 'src/app/datastructure/locationCount';
 import { Manager } from 'src/app/datastructure/manager';
 
 @Injectable({
@@ -14,6 +15,7 @@ export class AssessmentService {
   getAssessmentByNameURL: string = '/api/assessment/name/';
   getManagerURL: string = '/api/manager';
   courseURL: string = '/api/course/';
+  locationCountURL: string = '/api/candidateassess/count/';
 
   constructor(private http: HttpClient) {}
 
@@ -41,6 +43,10 @@ export class AssessmentService {
     return this.http.get<Assessment[]>(
       this.allAssessmentURL + this.assessByManagerId + id
     );
+  }
+
+  getLocationCountRequest(id: number): Observable<LocationCount> {
+    return this.http.get<LocationCount>(this.locationCountURL + id);
   }
 
   getManagerRequest(id: number): Observable<Manager> {

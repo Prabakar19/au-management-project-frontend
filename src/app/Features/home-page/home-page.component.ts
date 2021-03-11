@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ASSIGNMENT, PROJECT, QUIZ } from 'src/app/constants/Types';
 import { Assessment } from 'src/app/datastructure/assessment';
+import { LocationCount } from 'src/app/datastructure/locationCount';
 import { Manager } from 'src/app/datastructure/manager';
 import { AssessmentService } from 'src/app/Services/assessmentService/assessment.service';
 
@@ -15,11 +17,14 @@ export class HomePageComponent implements OnInit {
   filteredList: Assessment[];
   totalRecords: number;
   page: number;
-  QUIZ: string = 'QUIZ';
-  ASSIGNMENT: string = 'ASSIGNMENT';
-  PROJECT: string = 'PROJECT';
 
-  locationData: number[];
+  QUIZ: string = QUIZ;
+  ASSIGNMENT: string = ASSIGNMENT;
+  PROJECT: string = PROJECT;
+
+  locationData: LocationCount;
+  locationCount: number[];
+  locationNames: string[];
 
   //initial key for sort list
   key: string = 'lastUpdated';
@@ -37,7 +42,6 @@ export class HomePageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.locationData = [4, 3, 2, 2];
     this.getAllAssessments();
   }
 
@@ -48,14 +52,44 @@ export class HomePageComponent implements OnInit {
         this.assessmentNameList = this.assessmentList.map(
           (assessment) => assessment.assessmentTitle
         );
+
         this.totalRecords = this.assessmentList.length;
         this.filteredList = this.assessmentList;
-        this.pageLoaded = true;
+        this.getchartData();
       },
       (err) => {
         console.log(err);
       }
     );
+  }
+
+  getchartData() {
+    for (let i = 0; i < this.filteredList.length; i++) {
+      this.assessmentService
+        .getLocationCountRequest(this.filteredList[i].assessmentId)
+        .subscribe(
+          (res) => {
+            this.locationData = res;
+
+            this.locationNames = this.locationData.location;
+            this.locationCount = this.locationData.count.map((loc) =>
+              parseInt(loc)
+            );
+
+            if (this.locationCount.length) {
+              this.filteredList[i].locationCount = this.locationCount;
+              this.filteredList[i].locationNames = this.locationNames;
+            } else {
+              this.filteredList[i].locationCount = [1];
+              this.filteredList[i].locationNames = ['No data'];
+            }
+            this.pageLoaded = true;
+          },
+          (err) => {
+            console.log(err);
+          }
+        );
+    }
   }
 
   cardClickHandler(title: string) {

@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { ChartType } from 'chart.js';
+import {
+  Label,
+  MultiDataSet,
+  PluginServiceGlobalRegistrationAndOptions,
+} from 'ng2-charts';
 import { DialogComponent } from 'src/app/components/dialog/dialog.component';
 import { Assessment } from 'src/app/datastructure/assessment';
 import { Candidate } from 'src/app/datastructure/candidate';
@@ -23,6 +29,13 @@ export class CandidateHomeComponent implements OnInit {
   candidateAssessment: Partial<CandidateAssessment> = {};
   candidate: Candidate;
 
+  overAllPercentage: number = 0;
+  public doughnutChartLabels: Label[] = ['Percentage', ' '];
+  public doughnutChartData: MultiDataSet = [];
+  public doughnutChartType: ChartType = 'doughnut';
+
+  public doughnutChartPlugins: PluginServiceGlobalRegistrationAndOptions[] = [];
+
   constructor(
     private authGuargService: AuthGuardService,
     private router: Router,
@@ -33,7 +46,34 @@ export class CandidateHomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllAssessments();
+    this.drawPercentage();
     this.candidate = JSON.parse(localStorage.getItem('candidatetoken'));
+  }
+
+  drawPercentage() {
+    this.overAllPercentage = 60;
+    this.doughnutChartData.push([
+      this.overAllPercentage,
+      100 - this.overAllPercentage,
+    ]);
+
+    this.doughnutChartPlugins.push({
+      beforeDraw(chart) {
+        const ctx = chart.ctx;
+        var centerTxt = this.overAllPercentage ? this.overAllPercentage : '60';
+
+        const sidePadding = 60;
+
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        const centerX = (chart.chartArea.left + chart.chartArea.right) / 2;
+        const centerY = (chart.chartArea.top + chart.chartArea.bottom) / 2;
+
+        ctx.fillStyle = 'blue';
+
+        ctx.fillText(centerTxt + '%', centerX, centerY);
+      },
+    });
   }
 
   getAllAssessments() {
@@ -65,27 +105,30 @@ export class CandidateHomeComponent implements OnInit {
     this.candidateAssessment.score = this.myScore;
     this.candidateAssessment.feedback = this.myFeedback;
 
-    this.candidateService
-      .addCandidateScoreRequest(this.candidateAssessment)
-      .subscribe(
-        (res) => {
-          this.candidateAssessment = res;
-          this.openDialog();
-        },
-        (err) => {
-          console.log(err);
-        }
-      );
+    if (this.candidateAssessment.maxScore >= this.candidateAssessment.score) {
+      this.candidateService
+        .addCandidateScoreRequest(this.candidateAssessment)
+        .subscribe(
+          (res) => {
+            this.candidateAssessment = res;
+            this.openDialog('Score Added! YAY!!');
+          },
+          (err) => {
+            console.log(err);
+          }
+        );
+    } else {
+      this.openDialog('Failed! Your score is greater than maximum score');
+    }
   }
 
-  openDialog() {
+  openDialog(message: string) {
     const dialogRef = this.dialog.open(DialogComponent, {
       width: '250px',
-      data: 'Score Added. Yay!!',
+      data: message,
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
       this.myFeedback = '';
       this.myScore = undefined;
     });

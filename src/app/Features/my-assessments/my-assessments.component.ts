@@ -9,6 +9,7 @@ import { Material } from 'src/app/datastructure/material';
 import { AddMaterialCardComponent } from 'src/app/components/add-material-card/add-material-card.component';
 import { MaterialService } from 'src/app/Services/material-service/material.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { LocationCount } from 'src/app/datastructure/locationCount';
 
 @Component({
   selector: 'app-my-assessments',
@@ -28,6 +29,10 @@ export class MyAssessmentsComponent implements OnInit {
   QUIZ: string = 'QUIZ';
   ASSIGNMENT: string = 'ASSIGNMENT';
   PROJECT: string = 'PROJECT';
+
+  locationData: LocationCount;
+  locationCount: number[];
+  locationNames: string[];
 
   //initial key for sort list
   key: string = 'lastUpdated';
@@ -59,12 +64,43 @@ export class MyAssessmentsComponent implements OnInit {
 
           this.totalRecords = this.assessmentList.length;
           this.filteredList = this.assessmentList;
+          this.getchartData();
+
           this.pageLoaded = true;
         },
         (err) => {
           console.log(err);
         }
       );
+  }
+
+  getchartData() {
+    for (let i = 0; i < this.filteredList.length; i++) {
+      this.assessmentService
+        .getLocationCountRequest(this.filteredList[i].assessmentId)
+        .subscribe(
+          (res) => {
+            this.locationData = res;
+
+            this.locationNames = this.locationData.location;
+            this.locationCount = this.locationData.count.map((loc) =>
+              parseInt(loc)
+            );
+
+            if (this.locationCount.length) {
+              this.filteredList[i].locationCount = this.locationCount;
+              this.filteredList[i].locationNames = this.locationNames;
+            } else {
+              this.filteredList[i].locationCount = [1];
+              this.filteredList[i].locationNames = ['No data'];
+            }
+            this.pageLoaded = true;
+          },
+          (err) => {
+            console.log(err);
+          }
+        );
+    }
   }
 
   createClickHandler() {

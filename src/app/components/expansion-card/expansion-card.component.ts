@@ -14,28 +14,20 @@ export class ExpansionCardComponent implements OnInit {
   @Input('data')
   data: Assessment;
 
-  @Input('name')
-  name;
-
-  @Input('cityData')
-  cityData: number[];
-
+  firstName: Label;
   @Output()
   selectedAssessment: EventEmitter<string> = new EventEmitter();
 
-  public doughnutChartLabels: Label[] = [
-    'Hyderabad',
-    'Chennai',
-    'Bangalore',
-    'Mumbai',
-  ];
+  public doughnutChartLabels: Label[] = [];
+
   public doughnutChartData: MultiDataSet = [];
   public doughnutChartType: ChartType = 'doughnut';
 
   constructor() {}
 
   ngOnInit(): void {
-    this.doughnutChartData.push(this.cityData);
+    this.doughnutChartData.push(this.data.locationCount);
+    this.doughnutChartLabels = this.data.locationNames;
   }
 
   clickHandler() {

@@ -101,16 +101,9 @@
           </mat-grid-list>
         </mat-card-content>
         <mat-card-actions>
-          <button mat-button>Answer: {{ quiz.answer }}</button>
-          <!-- <mat-form-field appearance="fill">
-            <mat-label>Select Answer</mat-label>
-            <mat-select disableRipple formControlName="answer" required>
-              <mat-option value="1">{{ quiz.option1 }}</mat-option>
-              <mat-option value="2">{{ quiz.option2 }}</mat-option>
-              <mat-option value="3">{{ quiz.option3 }}</mat-option>
-              <mat-option value="3">{{ quiz.option4 }}</mat-option>
-            </mat-select>
-          </mat-form-field> -->
+          <mat-form-field appearance="outline">
+            <input type="text" matInput formControlName="answer" />
+          </mat-form-field>
 
           <mat-form-field class="score">
             <input type="text" matInput formControlName="score" />

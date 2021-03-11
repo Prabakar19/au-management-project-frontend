@@ -57,13 +57,8 @@ export class CandidateRegisterComponent implements OnInit {
           this.candidate = res;
 
           this.registrationForm.reset;
-          localStorage.setItem('isCandidateLoggedIn', 'true');
-          localStorage.setItem(
-            'candidatetoken',
-            JSON.stringify(this.candidate)
-          );
 
-          this.router.navigateByUrl('/candidatehome');
+          this.router.navigateByUrl('/candidatelogin');
         },
         (error) => {
           this.errorMessage = 'customer already exist with these details';

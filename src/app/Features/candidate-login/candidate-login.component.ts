@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { DialogComponent } from 'src/app/components/dialog/dialog.component';
 import { Candidate } from 'src/app/datastructure/candidate';
 import { CandidateService } from 'src/app/Services/candidate-service/candidate.service';
 
@@ -24,7 +26,8 @@ export class CandidateLoginComponent implements OnInit {
   constructor(
     private candidateService: CandidateService,
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {}
@@ -45,8 +48,20 @@ export class CandidateLoginComponent implements OnInit {
         },
         (err) => {
           console.log(err);
+          let msg = err.error.message;
+          this.openDialog(err.error.message);
         }
       );
     }
+  }
+  openDialog(message: string) {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: '250px',
+      data: message,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed');
+    });
   }
 }

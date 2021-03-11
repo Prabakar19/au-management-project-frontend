@@ -8,10 +8,15 @@ import { Manager } from './../../datastructure/manager';
 })
 export class LoginService {
   loginUrl: string = '/api/manager/login';
+  googleloginUrl: string = '/api/manager/googlelogin';
 
   constructor(private http: HttpClient) {}
 
-  loginRequest(data: Manager): Observable<Manager> {
+  loginRequest(data: Partial<Manager>): Observable<Manager> {
     return this.http.post<Manager>(this.loginUrl, data);
+  }
+
+  googleloginRequest(data: Partial<Manager>): Observable<Manager> {
+    return this.http.post<Manager>(this.googleloginUrl, data);
   }
 }

@@ -12,9 +12,12 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { DialogComponent } from 'src/app/components/dialog/dialog.component';
+import { CLIENT_ID } from 'src/app/constants/myid';
 import { Manager } from 'src/app/datastructure/manager';
 import { LoginService } from 'src/app/Services/loginService/login.service';
 const googleLogoURL =
@@ -42,6 +45,7 @@ export class LoginPageComponent implements OnInit {
     private loginService: LoginService,
     private fb: FormBuilder,
     private router: Router,
+    private dialog: MatDialog,
     private matIconRegistry: MatIconRegistry,
     private domSanitizer: DomSanitizer,
     private ngZone: NgZone
@@ -68,6 +72,7 @@ export class LoginPageComponent implements OnInit {
           this.router.navigateByUrl('/home');
         },
         (err) => {
+          this.openDialog();
           console.log(err);
         }
       );
@@ -78,8 +83,7 @@ export class LoginPageComponent implements OnInit {
     window['googleSDKLoaded'] = () => {
       window['gapi'].load('auth2', () => {
         this.auth2 = window['gapi'].auth2.init({
-          client_id:
-            '331060380462-d27i3dlgau7nivh0n98p1cs9k1gqrijn.apps.googleusercontent.com',
+          client_id: CLIENT_ID,
           cookiepolicy: 'single_host_origin',
           scope: 'profile email',
         });
@@ -107,17 +111,36 @@ export class LoginPageComponent implements OnInit {
       (googleUser) => {
         let profile = googleUser.getBasicProfile();
 
-        console.log(profile.getId());
-        console.log(profile.getName());
-        console.log(profile.getEmail());
+        this.manager.emailId = profile.getEmail();
 
-        // this.ngZone.run(() =>
-
-        // );
+        this.ngZone.run(() =>
+          this.loginService.googleloginRequest(this.manager).subscribe(
+            (res) => {
+              this.manager = res;
+              localStorage.setItem('isLoggedIn', 'true');
+              localStorage.setItem('usertoken', JSON.stringify(this.manager));
+              this.router.navigateByUrl('/home');
+            },
+            (error) => {
+              this.openDialog();
+            }
+          )
+        );
       },
       (error) => {
         alert(JSON.stringify(error, undefined, 2));
       }
     );
+  }
+
+  openDialog() {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: '250px',
+      data: 'You are not autherized user!!',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed');
+    });
   }
 }

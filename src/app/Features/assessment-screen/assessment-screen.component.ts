@@ -60,7 +60,6 @@ export class AssessmentScreenComponent implements OnInit {
   getAssessment() {
     this.manager = JSON.parse(localStorage.getItem('usertoken'));
     this.assessmentName = JSON.parse(sessionStorage.getItem('assessment'));
-    // console.log(this.assessmentName);
     this.assessmentService
       .getAssessmentByNameRequest(this.assessmentName)
       .subscribe(
@@ -241,52 +240,56 @@ export class AssessmentScreenComponent implements OnInit {
   }
 
   quizHandler() {
-    const dialogRef = this.dialog.open(AddQuizComponent, {
-      width: '600px',
-      data: this.quiz1,
-    });
+    if (this.assessment.managerId == this.manager.managerId) {
+      const dialogRef = this.dialog.open(AddQuizComponent, {
+        width: '600px',
+        data: this.quiz1,
+      });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
-      if (
-        result != undefined &&
-        result.question &&
-        result.option1 &&
-        result.option2 &&
-        result.option3 &&
-        result.option4 &&
-        result.answer &&
-        result.score
-      ) {
-        this.quiz = result;
+      dialogRef.afterClosed().subscribe((result) => {
+        console.log('The dialog was closed');
+        if (
+          result != undefined &&
+          result.question &&
+          result.option1 &&
+          result.option2 &&
+          result.option3 &&
+          result.option4 &&
+          result.answer &&
+          result.score
+        ) {
+          this.quiz = result;
 
-        this.quizService
-          .addQuizRequest(this.quiz, this.assessment.assessmentId)
-          .subscribe(
-            (res) => {
-              this.quiz = res;
-              this.quizSet.push(this.quiz);
-            },
-            (err) => {
-              console.log(err);
-            }
-          );
-      } else {
-        this._snackBar.open('not added', 'cancel', {
-          duration: 2000,
-        });
-      }
-    });
+          this.quizService
+            .addQuizRequest(this.quiz, this.assessment.assessmentId)
+            .subscribe(
+              (res) => {
+                this.quiz = res;
+                this.quizSet.push(this.quiz);
+              },
+              (err) => {
+                console.log(err);
+              }
+            );
+        } else {
+          this._snackBar.open('not added', 'cancel', {
+            duration: 2000,
+          });
+        }
+      });
+    } else {
+      this.openDialog();
+    }
   }
 
   openDialog() {
     const dialogRef = this.dialog.open(DialogComponent, {
       width: '250px',
-      data: 'You are not autherized user!!',
+      data: "You can not modify other's assessment details!!",
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
+      location.reload();
     });
   }
 }

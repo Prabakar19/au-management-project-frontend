@@ -16,4 +16,6 @@ export interface Assessment {
   assignmentSet: Assignment[];
   projectSet: Project[];
   trainingMaterials: Material[];
+  locationNames?: string[];
+  locationCount?: number[];
 }

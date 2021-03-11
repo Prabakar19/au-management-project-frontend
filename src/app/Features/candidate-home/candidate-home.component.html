@@ -68,4 +68,17 @@
       <button mat-button class="submit" (click)="storeMark()">Submit</button>
     </mat-card>
   </div>
+  <mat-card class="chart-card">
+    <mat-card-title>Score Card</mat-card-title>
+    <div class="chart">
+      <canvas
+        baseChart
+        [data]="doughnutChartData"
+        [labels]="doughnutChartLabels"
+        [chartType]="doughnutChartType"
+        [plugins]="doughnutChartPlugins"
+      >
+      </canvas>
+    </div>
+  </mat-card>
 </div>
