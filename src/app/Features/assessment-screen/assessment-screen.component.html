@@ -1,0 +1,105 @@
+<app-nav-bar> </app-nav-bar>
+<app-loader *ngIf="!pageLoaded; else elseBlock"></app-loader>
+<ng-template #elseBlock>
+  <div *ngIf="assessment != null">
+    <mat-card class="example-card">
+      <div *ngIf="toggle; else elseBlock">
+        <div class="toolbar">
+          <button mat-button class="inline" (click)="removeAssessmentHandler()">
+            <mat-icon>delete</mat-icon>
+          </button>
+          <button mat-button class="inline" (click)="enableEdit()">
+            <mat-icon>create</mat-icon>
+            <mat-label>Edit</mat-label>
+          </button>
+        </div>
+
+        <mat-card-header>
+          <mat-card-title>{{ assessment.assessmentTitle }}</mat-card-title>
+          <mat-card-subtitle>{{ assessment.description }}</mat-card-subtitle>
+        </mat-card-header>
+      </div>
+
+      <ng-template #elseBlock>
+        <form [formGroup]="updationForm" (ngSubmit)="saveAssessment()">
+          <div class="toolbar">
+            <button
+              mat-button
+              class="inline"
+              (click)="removeAssessmentHandler()"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+
+            <button mat-button class="inline" (click)="saveAssessmentHandler()">
+              <mat-icon>save_alt</mat-icon>
+              <mat-label>Save</mat-label>
+            </button>
+          </div>
+
+          <mat-card-header>
+            <mat-card-title>
+              <mat-form-field appearance="outline">
+                <input type="text" matInput formControlName="title" />
+              </mat-form-field>
+            </mat-card-title>
+            <mat-card-subtitle>
+              <mat-form-field appearance="outline">
+                <input type="text" matInput formControlName="description" />
+              </mat-form-field>
+            </mat-card-subtitle>
+          </mat-card-header>
+        </form>
+      </ng-template>
+      <mat-card-actions>
+        <button mat-button>Type: {{ assessment.type }}</button>
+        <button mat-button>Total Score: {{ assessment.score }}</button>
+        <button mat-button>
+          Last Updated: {{ assessment.lastUpdated | date: "short" }}
+        </button>
+      </mat-card-actions>
+
+      <div *ngIf="quizLength != 0">
+        <h1>Quiz</h1>
+        <div *ngFor="let quiz of quizSet">
+          <app-quiz-card
+            [quiz]="quiz"
+            (updatedQuiz)="updatedQuizHandler($event)"
+            (removeItem)="removeQuizHandler($event)"
+          ></app-quiz-card>
+        </div>
+      </div>
+
+      <div *ngIf="assignmentLength != 0">
+        <h1>Assignment</h1>
+        <div *ngIf="assignmentSet">
+          <div *ngFor="let assignment of assignmentSet">
+            <app-assignment-card
+              [assignment]="assignment"
+              (updatedAssignment)="updatedAssignmentHandler($event)"
+              (removeItem)="deleteAssignmentHandler($event)"
+            ></app-assignment-card>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="projectLength != 0">
+        <h1>Project</h1>
+        <div *ngIf="projectSet">
+          <div *ngFor="let project of projectSet">
+            <app-project-card
+              [project]="project"
+              (updatedProject)="updatedProjectHandler($event)"
+              (removeItem)="deleteProjectHandler($event)"
+            ></app-project-card>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="assessment.type == 'QUIZ'">
+        <button mat-raised-button class="add-btn" (click)="quizHandler()">
+          Add More {{ assessment.type }}
+        </button>
+      </div>
+    </mat-card>
+  </div>
+</ng-template>

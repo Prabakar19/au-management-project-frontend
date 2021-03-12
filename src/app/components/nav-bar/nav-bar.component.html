@@ -1,0 +1,32 @@
+<p>
+  <mat-toolbar>
+    <div routerLink="/home">
+      <span>AU Management</span>
+    </div>
+    <div class="navbar-align-last">
+      <button
+        mat-icon-button
+        class="example-icon favorite-icon"
+        routerLink="/addassessment"
+      >
+        <mat-icon>add</mat-icon>
+        <mat-label>Add</mat-label>
+      </button>
+      <button
+        mat-icon-button
+        class="example-icon favorite-icon"
+        routerLink="/myassessment"
+      >
+        <mat-icon>stars</mat-icon>
+        <mat-label>My Assessment</mat-label>
+      </button>
+      <button [matMenuTriggerFor]="menu" mat-icon-button class="example-icon">
+        <mat-icon>power_settings_new</mat-icon>
+        <mat-label>Logout</mat-label>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="logout()">Logout</button>
+      </mat-menu>
+    </div>
+  </mat-toolbar>
+</p>

@@ -1,0 +1,18 @@
+.example-card {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: 80px;
+  margin-right: 80px;
+}
+.toolbar {
+  padding: 5px;
+}
+.toolbar > button {
+  background-image: linear-gradient(to right, #485563, #29323c);
+  color: #fff;
+  float: right;
+  margin: 3px;
+}
+.add-btn {
+  margin-left: 35%;
+}

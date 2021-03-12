@@ -9,11 +9,57 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppMaterialModule } from './app-material/app-material.module';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AuthenticationGuard } from './Guards/authentication.guard';
+import { AuthenticationGuard } from './Guards/manager-guard/authentication.guard';
 import { ErrorCardComponent } from './components/error-card/error-card.component';
+import { NavBarComponent } from './components/nav-bar/nav-bar.component';
+import { SearchBarComponent } from './components/search-bar/search-bar.component';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { Ng2OrderModule } from 'ng2-order-pipe';
+import { ExpansionCardComponent } from './components/expansion-card/expansion-card.component';
+import { AssessmentScreenComponent } from './Features/assessment-screen/assessment-screen.component';
+import { QuizCardComponent } from './components/quiz-card/quiz-card.component';
+import { AssignmentCardComponent } from './components/assignment-card/assignment-card.component';
+import { ProjectCardComponent } from './components/project-card/project-card.component';
+import { DialogComponent } from './components/dialog/dialog.component';
+import { MyAssessmentsComponent } from './Features/my-assessments/my-assessments.component';
+import { AddAssessmentComponent } from './Features/add-assessment/add-assessment.component';
+import { SelectComponent } from './components/select/select.component';
+import { AddQuizComponent } from './components/add-quiz/add-quiz.component';
+import { AddAssignmentComponent } from './components/add-assignment/add-assignment.component';
+import { AddProjectComponent } from './components/add-project/add-project.component';
+import { LoaderComponent } from './components/loader/loader.component';
+import { AddMaterialCardComponent } from './components/add-material-card/add-material-card.component';
+import { CandidateLoginComponent } from './Features/candidate-login/candidate-login.component';
+import { CandidateRegisterComponent } from './Features/candidate-register/candidate-register.component';
+import { CandidateHomeComponent } from './Features/candidate-home/candidate-home.component';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
-  declarations: [AppComponent, LoginPageComponent, HomePageComponent, ErrorCardComponent],
+  declarations: [
+    AppComponent,
+    LoginPageComponent,
+    HomePageComponent,
+    ErrorCardComponent,
+    NavBarComponent,
+    SearchBarComponent,
+    ExpansionCardComponent,
+    AssessmentScreenComponent,
+    QuizCardComponent,
+    AssignmentCardComponent,
+    ProjectCardComponent,
+    DialogComponent,
+    MyAssessmentsComponent,
+    AddAssessmentComponent,
+    SelectComponent,
+    AddQuizComponent,
+    AddAssignmentComponent,
+    AddProjectComponent,
+    LoaderComponent,
+    AddMaterialCardComponent,
+    CandidateLoginComponent,
+    CandidateRegisterComponent,
+    CandidateHomeComponent,
+  ],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -22,6 +68,9 @@ import { ErrorCardComponent } from './components/error-card/error-card.component
     AppRoutingModule,
     BrowserAnimationsModule,
     AppMaterialModule,
+    NgxPaginationModule,
+    Ng2OrderModule,
+    ChartsModule,
   ],
   providers: [AuthenticationGuard],
   bootstrap: [AppComponent],

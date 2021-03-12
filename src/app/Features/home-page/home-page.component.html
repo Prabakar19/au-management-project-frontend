@@ -1,1 +1,66 @@
-<p>home-page works!</p>
+<app-nav-bar> </app-nav-bar>
+<app-loader *ngIf="!pageLoaded; else elseBlock"></app-loader>
+<ng-template #elseBlock>
+  <div class="search">
+    <app-search-bar
+      *ngIf="assessmentNameList"
+      [listData]="assessmentNameList"
+      (selectedData)="selectedDataHandler($event)"
+      class="inline"
+    ></app-search-bar>
+  </div>
+  <div class="assessment">
+    <div class="filter">
+      <div>
+        <h3>Sort By:</h3>
+        <button mat-raised-button (click)="sortBy('lastUpdated')">
+          Date
+          <mat-icon>{{
+            reverse ? "arrow_drop_up" : "arrow_drop_down"
+          }}</mat-icon>
+        </button>
+      </div>
+
+      <div>
+        <h3>Filter By:</h3>
+        <button mat-raised-button (click)="filterType(QUIZ)">Quiz</button>
+        <button mat-raised-button (click)="filterType(ASSIGNMENT)">
+          Assignment
+        </button>
+        <button mat-raised-button (click)="filterType(PROJECT)">Project</button>
+      </div>
+    </div>
+
+    <table>
+      <tr
+        *ngFor="
+          let assessment of filteredList
+            | paginate
+              : {
+                  id: 'assessment_pagination',
+                  itemsPerPage: 5,
+                  currentPage: page,
+                  totalItems: totalRecords
+                }
+            | orderBy: key:reverse
+        "
+      >
+        <td>
+          <app-expansion-card
+            [data]="assessment"
+            (selectedAssessment)="cardClickHandler($event)"
+          ></app-expansion-card>
+          <mat-divider></mat-divider>
+        </td>
+      </tr>
+    </table>
+    <div class="mat-elevation-z8 pagination">
+      <pagination-controls
+        id="assessment_pagination"
+        maxSize="5"
+        directionLinks="true"
+        (pageChange)="page = $event"
+      ></pagination-controls>
+    </div>
+  </div>
+</ng-template>
